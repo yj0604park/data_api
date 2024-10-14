@@ -278,3 +278,6 @@ data_api/media/
 .env
 .envs/*
 !.envs/.local/
+
+
+custom_data/
