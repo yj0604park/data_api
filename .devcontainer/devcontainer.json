@@ -2,7 +2,7 @@
 {
     "name": "data_api_dev",
     "dockerComposeFile": [
-        "../docker-compose.local.yml"
+        "../docker-compose.yml"
     ],
     "init": true,
     "mounts": [

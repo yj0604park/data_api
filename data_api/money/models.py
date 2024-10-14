@@ -1,5 +1,6 @@
-from django.db import models
 from collections import defaultdict
+
+from django.db import models
 
 
 class Salary(models.Model):
@@ -53,4 +54,7 @@ class SalaryDetail(models.Model):
     detail_type = models.TextField(max_length=3, choices=SalaryDetailType.choices)
 
     def __str__(self):
-        return f"{self.salary.id}: {self.salary_detail.id}: {self.detail_type}: {self.amount}"
+        return (
+            f"{self.salary.id}: {self.salary_detail.id}: "
+            f"{self.detail_type}: {self.amount}"
+        )

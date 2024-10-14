@@ -1,6 +1,7 @@
 import django_filters
 
-from .models import Salary, SalaryDetailItem
+from .models import Salary
+from .models import SalaryDetailItem
 
 
 class SalaryFilter(django_filters.FilterSet):

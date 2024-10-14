@@ -1,29 +1,32 @@
-from data_api.money.models import Salary, SalaryDetailItem, SalaryDetail
+import logging
+
+from data_api.money.models import Salary
+from data_api.money.models import SalaryDetailItem
 
 
 def run():
-    print("Checking pay details")
+    logging.info("Checking pay details")
     for salary in Salary.objects.all():
-        print("Checking salary: ", salary.date)
+        logging.info("Checking salary: %s", salary.date)
         salary.check_detail()
 
-    print("Checking salary details")
+    logging.info("Checking salary details")
     detail_items = SalaryDetailItem.objects.all()
     lower_case = {}
 
     for item in detail_items:
         lower_case_name = item.name.lower()
         if lower_case_name in lower_case:
-            print("Duplicate name: ", item.name)
+            logging.info("Duplicate name: %s", item.name)
             lower_case[lower_case_name].append(item)
         else:
             lower_case[lower_case_name] = [item]
 
     for name, items in lower_case.items():
         if len(items) > 1:
-            print("Duplicate name: ", name)
+            logging.info("Duplicate name: %s", name)
             normalized_name = SalaryDetailItem.get_nomalized_name(name)
-            print("Normalized name: ", normalized_name)
+            logging.info("Normalized name: %s", normalized_name)
 
             surviving_item = items[0]
             surviving_item.name = normalized_name
@@ -36,7 +39,7 @@ def run():
 
                 item.delete()
         else:
-            print("Unique name: ", name)
+            logging.info("Unique name: %s", name)
             normalized_name = SalaryDetailItem.get_nomalized_name(name)
 
             if items[0].name != normalized_name:

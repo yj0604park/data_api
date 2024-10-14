@@ -1,14 +1,22 @@
-from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateModelMixin
+from rest_framework.mixins import ListModelMixin
+from rest_framework.mixins import RetrieveModelMixin
+from rest_framework.mixins import UpdateModelMixin
 from rest_framework.viewsets import GenericViewSet
 
-from data_api.money.filters import SalaryDetailFilter, SalaryFilter
-from data_api.money.models import Salary, SalaryDetailItem
+from data_api.money.filters import SalaryDetailFilter
+from data_api.money.filters import SalaryFilter
+from data_api.money.models import Salary
+from data_api.money.models import SalaryDetailItem
 
-from .serializers import SalaryDetailSerializer, SalarySerializer
+from .serializers import SalaryDetailSerializer
+from .serializers import SalarySerializer
 
 
 class SalaryViewSet(
-    RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericViewSet
+    RetrieveModelMixin,
+    ListModelMixin,
+    UpdateModelMixin,
+    GenericViewSet,
 ):
     serializer_class = SalarySerializer
     queryset = Salary.objects.all()
@@ -17,7 +25,10 @@ class SalaryViewSet(
 
 
 class SalaryDetailItemViewSet(
-    RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericViewSet
+    RetrieveModelMixin,
+    ListModelMixin,
+    UpdateModelMixin,
+    GenericViewSet,
 ):
     serializer_class = SalaryDetailSerializer
     queryset = SalaryDetailItem.objects.all()

@@ -1,15 +1,13 @@
 import json
+import logging
+from pathlib import Path
 
 from django.db import transaction
-from typing import Dict
 
-from data_api.money.models import (
-    Salary,
-    SalaryDetailItem,
-    SalaryDetailType,
-    SalaryDetail,
-)
-
+from data_api.money.models import Salary
+from data_api.money.models import SalaryDetail
+from data_api.money.models import SalaryDetailItem
+from data_api.money.models import SalaryDetailType
 
 detail_type_to_key = {
     SalaryDetailType.PAY: "payDetail",
@@ -21,7 +19,7 @@ detail_type_to_key = {
 
 def run():
     # open file
-    with open("custom_data/income.json", "r") as f:
+    with Path.open("custom_data/income.json") as f:
         # read file
         data = json.load(f)
 
@@ -38,17 +36,17 @@ def run():
                         detail_type=detail_type,
                     )
 
-        except Exception as e:
-            print("Error: ", e)
+        except Exception as e:  # noqa: BLE001
+            logging.info("Error: %s", e)
             transaction.savepoint_rollback(sid)
 
 
 def get_or_create_salary(node):
-    print("Processing node: ", node["node"]["id"])
+    logging.info("Processing node: %s", node["node"]["id"])
 
     existing_salary = Salary.objects.filter(date=node["node"]["date"])
     if existing_salary.exists():
-        print("Salary already exists")
+        logging.info("Salary already exists")
         return existing_salary.first()
 
     # create a new object
@@ -66,11 +64,11 @@ def get_or_create_salary(node):
     return salary
 
 
-def create_salary_detail(salary: Salary, detail: Dict[str, str], detail_type: str):
+def create_salary_detail(salary: Salary, detail: dict[str, str], detail_type: str):
     for key, value in detail.items():
-        print(key, " ", value)
+        logging.info("%s %s", key, value)
         detail = SalaryDetailItem.objects.get_or_create(name=key)
-        print("Detail: ", detail)
+        logging.info("Detail: %s", detail)
         SalaryDetail.objects.get_or_create(
             salary=salary,
             salary_detail=detail[0],

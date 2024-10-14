@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
-from data_api.money.models import Salary, SalaryDetailItem
+from data_api.money.models import Salary
+from data_api.money.models import SalaryDetailItem
 
 
 class SalaryDetailSerializer(serializers.ModelSerializer[SalaryDetailItem]):
