@@ -1,6 +1,9 @@
+from rest_framework import status
+from rest_framework.decorators import action
 from rest_framework.mixins import ListModelMixin
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.mixins import UpdateModelMixin
+from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
 from data_api.money.filters import SalaryDetailFilter
@@ -22,6 +25,11 @@ class SalaryViewSet(
     queryset = Salary.objects.all()
     filterset_class = SalaryFilter
     lookup_field = "date"
+
+    @action(detail=False)
+    def list_years(self, request):
+        years = Salary.objects.dates("date", "year")
+        return Response(status=status.HTTP_200_OK, data=years)
 
 
 class SalaryDetailItemViewSet(
