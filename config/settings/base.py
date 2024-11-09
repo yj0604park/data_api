@@ -300,6 +300,7 @@ CORS_URLS_REGEX = r"^/api/.*$"
 
 CORS_ALLOWED_ORIGIN_REGEXES = [
     r"^http://192.168.50.12:3000",
+    r"^http://minione.local:3000",
 ]
 
 

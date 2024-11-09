@@ -1,3 +1,4 @@
+from rest_framework import filters
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.mixins import ListModelMixin
@@ -24,7 +25,10 @@ class SalaryViewSet(
     serializer_class = SalarySerializer
     queryset = Salary.objects.all()
     filterset_class = SalaryFilter
-    lookup_field = "date"
+    lookup_field = "id"
+    filter_backends = [filters.OrderingFilter]
+    ordering_fields = ["date"]
+    ordering = ["-date"]
 
     @action(detail=False)
     def list_years(self, request):
